@@ -1,0 +1,25 @@
+
+```Java
+
+package paramTest;
+
+public class ParamTest
+{
+	public static void main(String[] args)
+	{
+		C c = new C ();
+		int a = 1;
+		c.changeInt(a);
+		System.out.println(a);       //运行结果为1，说明changeInt并没有实现
+	}
+
+}
+class C
+{
+	public void changeInt(int a)
+	{
+		a++;
+	}
+}
+
+```

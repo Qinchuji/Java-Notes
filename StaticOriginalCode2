@@ -1,0 +1,48 @@
+```java
+package place;
+
+public class Statictest2
+{
+	public static void main(String[] args)
+	{
+	  /*new P();
+        new P();*/             //输出结果是一次static block两次p constructor;原因是当class文件加载到java虚拟机上面的时候，静态代码块就已经在执行了而构造函数是先生成对象再调用的
+	    new S();
+	    new S();                    //类似
+	}
+}
+
+class P
+{
+	static
+	{
+		System.out.println("p static block");  //静态代码块（放在类里面，与方法和属性平级）
+	}
+	public P()
+	{
+		System.out.println("P constructor"); //加了这一构造方法输出发现静态代码块优先于构造方法输出
+	}
+}
+class Q extends P
+{
+	static
+	{
+		System.out.println("Q static block");
+	}
+	public Q()
+	{
+		System.out.println("q constructor");
+	}
+}
+class S extends Q
+{
+	static
+	{
+		System.out.println("S static block");
+	}
+	public S()
+	{
+		System.out.println("S constructor");
+	}
+}
+```

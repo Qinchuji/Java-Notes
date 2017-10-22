@@ -1,0 +1,32 @@
+
+```java
+package p;
+
+public class ArrayTest
+{
+	public static void main(String[] args)
+	{
+		Person[] p1 = new Person[3];                            //引用数据类型的数组，new的实际上是引用
+		p1[0] = new Person(10);                                 //所以希望给数组赋值的时候就相当于在给引用逐个赋上地址并将构造函数表达的属性传递进去，即分别new数组元素
+		p1[1] = new Person(20);
+		p1[2] = new Person(30);
+		for(int i = 0;i < p1.length;i++)
+		{
+			System.out.println(p1[i].age);                      //输出引用数据类型的数组一定要注意，单独输出数组的时候输出的是数组元素引用所指向的地址
+		}
+		Person[] p2 = new Person[3];
+		for(int i = 0;i < p2.length;i++)
+		{
+			System.out.println(p2[i]);                          //没有为引用数据类型的数组赋初值则每一个元素则为空
+		}
+	}
+}
+class Person
+{
+	int age;
+	public Person(int age)
+	{
+		this.age = age;
+	}
+}
+```

@@ -1,0 +1,21 @@
+```java
+package p;
+
+public class Finaltest
+{
+	public static void main(String[] args)
+	{
+		People people = new People();
+		people.address.name = "Shanghai";
+		System.out.println(people.address.name);        //final引用的地址不能发生变化
+	}
+}
+class People
+{
+	final Address address = new Address();
+}
+class Address
+{
+	String name = "Beijing";
+}
+```

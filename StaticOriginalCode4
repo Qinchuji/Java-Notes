@@ -1,0 +1,20 @@
+```java
+package place;
+
+public class Statictest3
+{
+	public static void main(String[] args)
+	{
+		W.change();
+		System.out.println(W.a);
+	}
+}
+class W
+{
+	static int a = 10;                    //不加static是编译不成功的  其原因是：如果可以的话当你通过类名去调用change方法的时候你不知道改变的是哪个对象的a
+	public static void change()           //静态方法中只能访问静态变量，非静态方法静态和非静态变量都能访问
+	{
+		a ++;
+	}
+}
+```

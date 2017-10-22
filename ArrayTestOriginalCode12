@@ -1,0 +1,47 @@
+```java
+package p;
+
+public class ArrayTest12
+{
+public static int binarySearch(int[] array, int value)
+{
+	int low = 0;                            //第一个元素的位置
+	int high = array.length - 1;            //最后一个元素
+	int middle = 0;                         //暂赋中间值
+	while(low <= high)                      //5、
+	{
+		middle = (low + high) /2;             //1、
+
+		for(int i = 0;i < array.length; i++)
+		{
+			System.out.print(array[i]);
+			if(i == middle)
+			{
+				System.out.print("#");
+			}
+			System.out.print(" ");
+		}
+		System.out.println();
+		if(array[middle] == value)            //2、
+		{
+			return middle;
+		}
+		if(value < array[middle])             //3、
+		{
+			high = middle - 1;
+		}
+		if(value > array[middle])             //4、
+		{
+			low = middle + 1;
+		}
+	}
+	return -1;                               //表示没有找到
+}
+public static void main(String[] args)
+{
+	int[] b = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int index = binarySearch(b,8);
+	System.out.println(index);
+}
+}
+```

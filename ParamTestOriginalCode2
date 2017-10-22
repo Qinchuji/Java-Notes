@@ -1,0 +1,34 @@
+```java
+package paramTest;
+
+public class ParamTest2
+{
+	public static void main(String[] args)           //运行结果为0 0 ，因为在changePoint方法中传进来的地址参数原本是point引用所指向的，但因为changePoint方法
+	{
+		//ParamTest2 pt = new ParamTest2();          //使point引用指向了一个新对象，导致在方法中给point.x,point.y赋的值赋给了方法中新生成的对象，但调用的时候仍调
+		Point point = new Point();                   //用的是main中point所指向的对象，所以方法中的赋值相当于没有用上。
+		point.changePoint(point);
+		//pt.changePoint(point);
+		System.out.println(point.x);
+		System.out.println(point.y);
+	}
+	/*public void changePoint(Point point)      //对于非原生数据类型来说java传递的仍是值，其中这个值代表的是你所定义的引用所指向的地址。千万要注意java中没有传引用
+	{
+		point = new Point();
+		point.x = 3;
+		point.y = 4;
+	}*/
+
+}
+class Point
+{
+	int x;
+	int y;
+	public void changePoint(Point point)      //对于非原生数据类型来说java传递的仍是值，其中这个值代表的是你所定义的引用所指向的地址。千万要注意java中没有传引用
+	{
+		//point = new Point();
+		point.x = 3;
+		point.y = 4;
+	}
+}
+```

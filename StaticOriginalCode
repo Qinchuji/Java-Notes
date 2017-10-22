@@ -1,0 +1,19 @@
+```java
+package place;
+
+public class Statictest4
+{
+	public static void main(String[] args)
+	{
+		Mystatic statictest = new Mystatic();
+		Mystatic statictest2 = new Mystatic();
+		Mystatic.a = 10;
+		System.out.println(statictest2.a);
+	}
+
+}
+class Mystatic
+{
+	static int a;
+}
+```

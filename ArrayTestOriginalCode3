@@ -1,0 +1,25 @@
+```java
+package p;
+
+public class ArrayTest3
+{
+	public static void main(String[] args)
+	{
+		int[][] a = new int[2][3];                        //integer本身就是个类
+		System.out.println(a instanceof Object);          //数组是对象
+		System.out.println(a[0] instanceof int[]);        //a[0]是个一维数组
+		int m = 0;
+		for(int i = 0;i < 2;i++)
+		{
+			for(int j = 0;j < 3;j++)
+			{
+				m++;
+				a[i][j] = m*2;
+				System.out.print(a[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+}
+
+```

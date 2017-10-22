@@ -1,0 +1,40 @@
+```java
+package p;
+
+public class Singletontest2
+{
+    private static Singletontest2 instance = null;
+
+    private Singletontest2()
+    {
+
+    }
+
+   /*public static SingleTon getInstance()
+     * {
+        if (instance == null)
+        {
+            instance = new SingleTon();
+        }
+        return instance;
+    }*/
+    /* 此处使用一个内部类来维护单例 */
+  private static class SingletonFactory {
+      private static Singletontest2 instance = new Singletontest2();
+  }
+
+  /* 获取实例 */
+  public static Singletontest2 getInstance() {
+      if (instance == null) {
+          instance = SingletonFactory.instance;
+      }
+      return instance;
+  }
+
+    public Object readResolve(){
+        return instance;
+    }
+
+
+}
+```

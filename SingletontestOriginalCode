@@ -1,0 +1,28 @@
+
+```java
+
+package p;
+
+public class SingletonTest
+{
+	public static void main(String[] args)
+	{
+		Singleton singleton = Singleton.getInstance();
+		Singleton singleton2 = Singleton.getInstance();
+		System.out.println(singleton == singleton2);     //输出结果为true，表示singleton，和singleton2引用指向同一个对象
+	}
+}
+class Singleton
+{
+	public static Singleton getInstance()
+	{
+		return singleton;
+	}
+	private static Singleton singleton = new Singleton();
+	private Singleton()
+	{
+
+	}
+}
+
+```

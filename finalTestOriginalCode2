@@ -1,0 +1,17 @@
+```java
+package p;
+
+public class Finaltest2
+{
+	final int a;
+	public Finaltest2()
+	{
+		a = 0;
+	}                      //final的赋值一定要确定
+	//final int a = 0;       //final的赋值，在声明的时候直接赋值
+	public Finaltest2(int a)
+	{
+		this.a = 0;          //在声明final类型的成员变量时不赋初值，但在类的所有构造方法中都为其赋上初值
+	}
+}
+```
