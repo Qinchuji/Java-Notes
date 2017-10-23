@@ -306,7 +306,7 @@ x=2, y=2
 重写了Point类的toString方法，输出方式改变
 
 
-### 2.1.2ArrayList以及ArrayList方法的根源实现
+### 2.1.2ArrayList以及方法的根源实现
 当我们使用数组的时侯，在创建数组前一定要规定好数组的大小，比如说定义了一个长度为20的数组，但是后来却发现数据是30个，那么没办法只能再重新创建一个新的长度为30的数组并将长度为20的数组的值拷贝进新创建的数组，再追加元素。但ArrayList很好用，不需要管里面是怎么装的，只需要add()就可以了，再使用get()取出就可以了。根据API提供的方法来看与数组很相似，数组可以通过索引来访问，而集合也可以通过相同的方式进行访问操作。那么ArrayList是如何实现的?
 ###### ArrayList构造方法源代码：
 ```java
@@ -334,18 +334,19 @@ private transient Object[] elementData;                             //6、
 **ArrayList底层采用数组实现，当使用不带参数的构造方法生成ArrayList对象时，实际上会在底层生成一个长度为10的Object类型数组。**
 
 #### 2.1.2.1add()方法的根源实现
-add(E e) 向列表中添加对象，将指定的元素追加到列表的末尾。
+**add(E e) 向列表中添加对象，将指定的元素追加到列表的末尾。**
 ###### add()方法源代码：
 ```java
 public boolean add(E e)                          //1、
 ensureCapacity(size + 1);                        //2、   
-elementData[size++] = e;
+elementData[size++] = e;                         //3、
 return true;
-private int size;                                //3、
+private int size;                                //4、
 ```
 1. 返回布尔类型数据，添加成功返回真，失败返回假
 2. ensureCapacity(确保容量)
-3. ArrayList的大小(其中包含的元素个数),刚开始未给其赋值，所以值为0
+3. 调用完ensureCapacity(size + 1);后，将e赋值给element[size]元素，然后size++，代表增加了一个元素。
+3. size：ArrayList的大小(其中包含的元素个数),刚开始未给其赋值，所以值为0
 
 ###### 2.ensureCapacity(int minCapacity)方法源代码：
 **增加这个ArrayList实例的容量，如果在必要的情况下，去保证至少能容纳由最小的Capacity数量的元素个数。**
@@ -360,16 +361,12 @@ public void ensureCapacity(int minCapacity)
     int newCapacity = (oldCapacity * 3)/2 + 1;
     if (newCapacity < minCapacity)
     newCapacity = minCapacity;
-    elementData = Array.copyof(elementData,newCapacity);
+    elementData = Array.copyOf(elementData,newCapacity);
   }
 }
-
 ```
-1. elementData为数组，使用length属性
-2. 判断是否大于数组的容量，若大于这个数组，则生成新的数组
-elementData[size++] = e: 调用完ensureCapacity(size + 1);后，将e赋值给element[size]元素，然后size++，代表增加了一个元素。
-
-
+1. 将ArrayList构造方法中生成的elementData的length属性值赋给了oldCapacity
+2. 判断参数minCapacity（size + 1)是否大于oldCapacity(elementData.length)。若大于则生成新的对象类型数组指向了elementData数组，并生成了新的整型变量newCapacity赋值为(oldCapacity * 3)/2 + 1(例：值为10，则newCapacity值为16)，若小于则不进行任何操作，直接往下进行elementData[size++] = e；再判断newCapacity与minCapacity(size + 1)若不小于则进行copyOf方法，将原数组拷贝到新数组中并将容量变成newCapacity的容量。若小于则说明新生成的容量仍不够用户add()的元素个数，则将minCapacity的长度值赋给newCapacity，若大于，则直接进行copyOf方法。
 
 >###### 3.size()方法源代码：
 size() 返回列表当中元素的个数。
@@ -381,3 +378,81 @@ public int size()
 private int size;
 ```
 ArrayList的大小(其中包含的元素个数),刚开始未给其赋值，所以值为0
+
+**如果增加的元素个数超过了10个，那么ArrayList底层会新生成一个数组，长度为原数组的1.5倍+1，然后将原数组的内容复制到新的数组当中，并且后续增加的内容都会放到新数组当中。当新数组无法容纳增加的元素时，重复该过程。实际上底层的实现就是一个数组，如果能装下就装下，如果装不下那么就生成新的数组，将原来的数组拷贝到新的数组里，新追加的再放到后面去。**
+
+#### add(int index, E element)
+**在特定位置插入元素**
+###### add(int index, E element)方法源代码：
+
+```java
+public void add(int index, E element)
+{
+  if(index >size ||index < 0)
+  throw new IndexOutOfBoundsException("Index:"+index+",Size:"+size);
+  ensureCapacity(size+1);
+  System.arraycopy(elementData, index, elementData, index + 1,size - index);
+  elementData[index] = element;
+  size++;
+}
+```
+主要使用arraycopy方法进行元素的后移，将特定元素插入即可。代价相当高，需要改变后续元素的所有位置。
+
+#### 2.1.2.2get()方法的根源实现
+**get(int index) 返回列表中特定的元素。参数为元素的索引。**
+###### get()方法源代码：
+```java
+public E get(int index)
+{
+  RangeCheck(index)
+  return (E) elementData[index];
+}
+```
+1. RangeCheck:范围检查，检查元素检索是否在列表范围之内。
+```java
+private void RangeCheck(int index)
+{
+  inf (index >= size)
+  throw new IndexOutOfBoundsException
+  ("Index:"+index+",Size:" +size);
+}
+```
+
+#### 2.1.2.3remove（int index)方法的根源实现
+**remove（int index) 将列表中特定的元素删除并返回该被删元素。参数为元素的索引。**
+###### remove（int index)源代码：
+
+```java
+public E remove(int index)
+{
+  RangeCheck(index);                                       //1、
+  modCount++;
+  E oldValue = (E)elementData[index];                      //2、
+  int numMoved = size - index - 1;
+  if (numMoved > 0)
+  {
+    System.arraycopy(elementData,index+1,elementData,index,numMoved);  //3、
+    elementData[--size] = null;
+    return oldvalue;
+  }
+}
+
+```
+1. RangeCheck:范围检查，检查元素检索是否在列表范围之内。
+2. 取值，找到elementData[index](特定元素)赋给oldValue
+3. 数组拷贝：这里的操作实际上是对元素进行了移位，并将最后一个位置的元素赋值为空。(数组长度是没有变的)
+**对于ArrayList元素的删除操作，需要将被删除元素的后续元素向前移动，代价比较高。**
+
+## 2.2LinkedList（链表）
+实现了List接口的类：ArrayList和LinkedList
+#### LinkedList
+
+>java.util
+
+>Class LinkedList<E>
+
+>Implemented Inerfaces : Collections , List
+
+
+
+### 2.1.1ArrayList的使用方法：

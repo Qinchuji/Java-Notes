@@ -1,0 +1,93 @@
+
+package p;
+
+public class EqualsTest
+{
+	public static void main(String[] args)
+	{
+		Student s1 = new Student("zhangsan");
+		Student s2 = new Student("zhangsan");
+		System.out.println(s1 == s2);
+		System.out.println(s1.equals(s2));                  //输出值为false是因为s1调用的equals方法仍是Object类中的equals方法；看似字符串的equals方法的使用其实不然
+		                                                    //后面将equals方法重写使方法比较两引用的内容，而不再是比较两引用的地址
+		System.out.println(s1.name.equals(s2.name));      //调用了String类中重写的equals方法，此为理想输出
+	}
+}
+class Student
+{
+	String name;
+	public Student(String name)
+	{
+		this.name = name;
+	}
+	public boolean equals(Object anObject)                 //经过加了这一方法。Student类将equals方法重写，使其equals方法在调用时，不同于原有的Object类中的equals方法。
+	{
+		if(this == anObject)
+		{
+			return true;
+		}
+		if(anObject instanceof Student)
+		{
+			Student student = (Student)anObject;
+			if(student.name.equals(this.name))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+
+	/*public boolean equals(Object obj)                     //Object类中的equals方法（含义只有比较值是否相等）
+	{
+		return(this == obj)                               //调用Object方法需要使用Object实例，而equals方法中的参数则为外来参数；表示obj与this指针所指Object实例发生equals方法
+	}
+
+
+
+
+
+	public boolean equals(Object anObject)                //String类中重写Object类中的equals方法
+	{
+		if(this == anObject)
+		{
+			return true;                                  //返回值为真则表示自己在跟自己比
+		}
+		if(anObject instanceof String)                    //判断anObject是否为字符串类的实例
+		{
+			String anotherString = (String)anObject;      //想要重写父类里的equals方法，势必要接受一个Object参数，而上条语句已经判断出来此参数为字符串为了使用字符串中的方法所以一定要进行向下类型转换
+			int n == count;
+			if (n == anotherString.count)
+			{
+				char v1[] = value;
+				char v2[] = anotherString.value;
+				int j = offset;
+				int j = anotherString.offset;
+				while (n-- !=0 )
+				{
+					if(v1[i++] != v2[j++])
+						return false;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+}
+    public boolean equals(Object anObject)                    //为了实现Object子类将equals方法重写，这段方法仿照了String类重写equals的方法
+    {
+	    if(this == anObject)
+	    {
+		     return true;
+	    }
+	    if(anObject instanceof Student)
+	    {
+		    Student student = (Student)anObject;
+		    if(student.name.equals(this.name))
+		    {
+			     return true;
+		    }
+	    }
+	    return false;
+    }*/
