@@ -454,5 +454,7 @@ public E remove(int index)
 >Implemented Inerfaces : Collections , List
 
 
-
-### 2.1.1ArrayList的使用方法：
+关于ArrayList 和LinkedList的比较分析
+(a)ArrayList底层采用数组实现，LinkedList底层采用双向链表实现。
+(b)当执行插入或者删除操作的时候LinkedList效率更高。因为对于LinkedList来说，插入删除操作只需动用引用即可，元素无需移动，只改变了引用，而对于ArrayList来说元素的移动幅度很大，代价很高。
+(c)当执行搜索操作时，ArrayList效率更高因为ArrayList为线性存储，首元素的地址一旦确立，并且知道了每一项的存储内存就能很快的找到指定元素，而LinkedList则需要一项一项进行查找无法跳跃。

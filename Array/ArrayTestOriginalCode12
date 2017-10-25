@@ -1,4 +1,3 @@
-```java
 package p;
 
 public class ArrayTest12
@@ -44,4 +43,3 @@ public static void main(String[] args)
 	System.out.println(index);
 }
 }
-```
