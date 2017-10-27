@@ -1,5 +1,5 @@
 # 类集框架
-类集框架被设计用于适应几个目的。首先，这种框架是高性能的。对基本类集（动态数组、链接表、树和散列表）的实现是高效率的。一般很少需要人工去对这些“数据引擎”编写代码（如果有的话）。**第二点，框架必须允许不同类型的类集以相同的方式和高度互操作方式工作。第三点，类集必须是容易扩展和/或修改的。为了实现这一目标，类集框架被设计成包含一组标准的接口。**对这些接口，提供了几个标准的实现工具（例如LinkedList、HashSet和TreeSet），通常就是这样使用的。为了方便起见，创建用于各种特殊目的的实现工具。一部分工具可以使自己的类集实现更加容易。**最后，增加了允许将标准数组融合到类集框架中的机制。**
+类集框架被设计用于适应几个目的。首先，这种框架是高性能的。对基本类集（动态数组、链接表、树和散列表）的实现是高效率的。一般很少需要人工去对这些“数据引擎”编写代码（如果有的话）。**第二点，框架必须允许不同类型的类集以相同的方式和高度互操作方式工作。**;第三点，类集必须是容易扩展和/或修改的。**为了实现这一目标，类集框架被设计成包含一组标准的接口。**;对这些接口，提供了几个标准的实现工具（例如LinkedList、HashSet和TreeSet），通常就是这样使用的。为了方便起见，创建用于各种特殊目的的实现工具。一部分工具可以使自己的类集实现更加容易。**最后，增加了允许将标准数组融合到类集框架中的机制。**
 https://baike.baidu.com/item/%E7%B1%BB%E9%9B%86/4887328?fr=aladdin
 >**集合框架中的接口**
 >所谓框架就是一个类库的集合，集合框架就是一个用来表示和操作集合的统一的架构，包含了实现集合的接口与类。
@@ -8,9 +8,9 @@ https://baike.baidu.com/item/%E7%B1%BB%E9%9B%86/4887328?fr=aladdin
 ## 1.Collection（集合）
 
 #### Interface Collection
->java.util
->public interface Collection<E>
->extends Iterable
+>java.util;
+>public interface Collection<E>;
+>extends Iterable;
 
 一个集合代表了一组对象,这些对象我们称之为元素。某些集合允许重复的元素而其他是不可以的，有些是排序而有些不是。JDK不提供任何一个类直接去实现Collection接口，而是提供了更加具体的子接口Set和List接口继承Collection。这两个接口最主要用于传递集合以及操纵集合。
 
@@ -23,9 +23,9 @@ add(E e)
 
 ## 2.List（列表）
 #### Interface List<E>
->java.util
->public interface List<E>
->extends Collections<E>
+>java.util;
+>public interface List<E>;
+>extends Collections<E>;
 
 一个有序的集合称之为列表（或称作序列）。用户可以精确的通过下标来访问每一个插入列表中的元素，实现控制以及搜索功能。
 
@@ -33,9 +33,9 @@ add(E e)
 实现了List接口的类：ArrayList和LinkedList
 #### ArrayList
 
->java.util
->Class ArrayList<E>
->Implemented Inerfaces : Collections , List
+>java.util;
+>Class ArrayList<E>;
+>Implemented Inerfaces : Collections , List;
 
 ArrayList是List接口的可变数组的实现。实现了所有可选列表操作，并允许包括null在内的所有元素。除了实现List接口外，此类还提供一些方法来操作内部用来储存列表的数组的大小。
 
@@ -135,7 +135,7 @@ true
 1. add方法添加的是字符串对象而，get方法返回的值是Object类对象,而实际上返回的本来应该就是字符串类型，所以要进行向下类型转换使返回的值与添加的值类型一致。
 2. 类似于length区别是size是个方法，但可以与length使用思路相同。
 3. 调用方法清除列表。
-4. 也可以使用这个方法进行判断是否为空
+4. 也可以使用这个方法进行判断是否为空.
 
 ```java
 arrayList.remove(0);
@@ -146,7 +146,7 @@ for(int i = 0;i < arrayList.size();i++)
   System.out.println(arrayList.get(i));
 }
 ```
->输出结果为：world
+>输出结果为：world.
 
 remove（）方法另有一个重载方法，参数是传递内容。
 清除的机制是将特定的元素清除后将后面索引的元素向前移动。例如：清除了s0，s0 = s1,s1 = s2....所以此时的world变成了第一个元素。
@@ -156,7 +156,7 @@ arrayList.add("aaa");
 arrayList.add("bbb");
 System.out.println(arrayList.indexOf("aaa"));
 ```
->输出结果为:"0"
+>输出结果为:"0".
 
 "aaa"在ArrayList集合里是第一个位置，索引为0.
 
@@ -227,8 +227,8 @@ private int size;                                //4、
 public void ensureCapacity(int minCapacity)
 {
   modCount++;
-  int oldCapacity = elementData.length;                             //1、
-  if(minCapacity > oldCapacity)                                     //2、
+  int oldCapacity = elementData.length;                  //1、
+  if(minCapacity > oldCapacity)                          //2、
   {
     Object oldData[] = elementData;
     int newCapacity = (oldCapacity * 3)/2 + 1;
@@ -452,9 +452,9 @@ x=2, y=2
 实现了List接口的类：ArrayList和LinkedList
 #### LinkedList
 
->java.util
->Class LinkedList<E>
->Implemented Inerfaces : Collections , List
+>java.util;
+>Class LinkedList<E>;
+>Implemented Inerfaces : Collections , List;
 
 LinkedList是动态数组的另一种实现，底层以双向循环链表为实现基础，它的优势在于可以快速的删除和添加元素，不需要像ArrayList那样移动大量元素，但对于查找元素需要遍历链表中的元素进行匹配。所以LinkedList适用于频繁删除和添加元素，较少有使用查找元素的应用场景。
 
@@ -500,10 +500,11 @@ private transient Entry<E> header = new Entry<E>(null,null,null)
 9. public E removeLast();将链表中最后一个节点移除。**private E unlinkLast(Node<E> l)关键代码**
 
 ## LinkedList构造方法源代码
+
 >1. public LinkedList();
 >2. public LinkedList(Collection<? extends E> c)；
 >3. public boolean addAll(Collection<? extends E> c);
->4. public boolean addAll(int index, Collection<? extends E> c)
+>4. public boolean addAll(int index, Collection<? extends E> c);
 
 LinkedList包含3个全局参数：1.size存放当前链表有多少个节点。2.first为指向链表的第一个节点的引用。3.last为指向链表的最后一个节点的引用。
 ```java
