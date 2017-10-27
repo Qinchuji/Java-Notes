@@ -2,7 +2,9 @@
 类集框架被设计用于适应几个目的。首先，这种框架是高性能的。对基本类集（动态数组、链接表、树和散列表）的实现是高效率的。一般很少需要人工去对这些“数据引擎”编写代码（如果有的话）。**第二点，框架必须允许不同类型的类集以相同的方式和高度互操作方式工作。**;第三点，类集必须是容易扩展和/或修改的。**为了实现这一目标，类集框架被设计成包含一组标准的接口。**;对这些接口，提供了几个标准的实现工具（例如LinkedList、HashSet和TreeSet），通常就是这样使用的。为了方便起见，创建用于各种特殊目的的实现工具。一部分工具可以使自己的类集实现更加容易。**最后，增加了允许将标准数组融合到类集框架中的机制。**
 https://baike.baidu.com/item/%E7%B1%BB%E9%9B%86/4887328?fr=aladdin
 >**集合框架中的接口**
+
 >所谓框架就是一个类库的集合，集合框架就是一个用来表示和操作集合的统一的架构，包含了实现集合的接口与类。
+
 >**集合(Collection)接口作为根接口，分别被Set和List所继承，而SortedSet实现了Set。映射（Map）被排序映射(SortedMap)所继承。**
 
 ## 1.Collection（集合）
@@ -24,7 +26,9 @@ add(E e)
 ## 2.List（列表）
 #### Interface List<E>
 >java.util;
+
 >public interface List<E>;
+
 >extends Collections<E>;
 
 一个有序的集合称之为列表（或称作序列）。用户可以精确的通过下标来访问每一个插入列表中的元素，实现控制以及搜索功能。
@@ -34,7 +38,9 @@ add(E e)
 #### ArrayList
 
 >java.util;
+
 >Class ArrayList<E>;
+
 >Implemented Inerfaces : Collections , List;
 
 ArrayList是List接口的可变数组的实现。实现了所有可选列表操作，并允许包括null在内的所有元素。除了实现List接口外，此类还提供一些方法来操作内部用来储存列表的数组的大小。
@@ -453,7 +459,9 @@ x=2, y=2
 #### LinkedList
 
 >java.util;
+
 >Class LinkedList<E>;
+
 >Implemented Inerfaces : Collections , List;
 
 LinkedList是动态数组的另一种实现，底层以双向循环链表为实现基础，它的优势在于可以快速的删除和添加元素，不需要像ArrayList那样移动大量元素，但对于查找元素需要遍历链表中的元素进行匹配。所以LinkedList适用于频繁删除和添加元素，较少有使用查找元素的应用场景。
