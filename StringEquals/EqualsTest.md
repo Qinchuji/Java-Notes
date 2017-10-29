@@ -2,7 +2,7 @@
 >**该方法定义在Object类中，因此java中的每一个类都具有该方法。而在Object类子类之中的一些类会根据自己类的特性适当的将Object类中的equals进行重写，而这里我将重点学习String类中equals方法的重写以及在String类中的应用。**
 
 ## Object类中的equals方法
->```java
+```java
 public boolean equals(Object obj)                     //Object类中的equals方法（含义只有比较值是否相等）
 	{
 		return(this == obj)                               //equals方法中的参数则为外来参数；表示obj与this指针所指Object实例发生equals方法
