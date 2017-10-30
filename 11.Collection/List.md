@@ -11,7 +11,9 @@ https://baike.baidu.com/item/%E7%B1%BB%E9%9B%86/4887328?fr=aladdin
 
 #### Interface Collection
 >java.util;
+
 >public interface Collection<E>;
+
 >extends Iterable;
 
 一个集合代表了一组对象,这些对象我们称之为元素。某些集合允许重复的元素而其他是不可以的，有些是排序而有些不是。JDK不提供任何一个类直接去实现Collection接口，而是提供了更加具体的子接口Set和List接口继承Collection。这两个接口最主要用于传递集合以及操纵集合。
