@@ -1,9 +1,10 @@
 
 # String类
->**public final class String**
-java.lang.String
+>public final class String
 
->1. **字符串是个final类，就是说字符串是不能继承的。**
+>java.lang.String
+
+1. **字符串是个final类，就是说字符串是不能继承的。**
 2. **在java中所有的字面值，都是String类的实例。**
 
 ## 字符串赋值与池的关系
@@ -22,8 +23,10 @@ java.lang.String
 2. **如果存在，则不创建任何对象，直接将String Pool栈中的这个“aaa”对象地址返回回来。**
 
 ```java
-String str3 = "bbb";                   //池中创建了对象
-String str4 = "bbb";                   //池中没有创建对象只是返回了地址
+//池中创建了对象
+String str3 = "bbb";
+//池中没有创建对象只是返回了地址                   
+String str4 = "bbb";                   
 System.out.println(str3 == str4);
 ```
 >**输出结果为：“true”**
@@ -41,8 +44,10 @@ System.out.println(str3 == str4);
 2. **如果存在就不会在String Pool创建这个“aaa”对象，而是直接在堆中创建，然后将堆中的这个“aaa”对象的地址返回来，赋给了s引用，使s引用指向了堆中创建的这个“aaa”字符串对象。**
 
 ```java
-String str1 = new String("aaa");            //池中创建了对象，堆中也创建了对象
-String str2 = new String("aaa");            //在堆中创建新对象，返回地址
+ //池中创建了对象，堆中也创建了对象
+String str1 = new String("aaa");
+//在堆中创建新对象，返回地址           
+String str2 = new String("aaa");            
 System.out.println(str1 == str2);
 ```
 >**输出结果为：“false”**
@@ -61,12 +66,13 @@ System.out.println(str1 == str2);
 ```java
 String s1 = "hello";
 String s2 = "world";
-String s3 = s1 + s2；
-System.out.println(s3);
+String s3 = "helloworld"
+String s4 = s1 + s2；
+System.out.println(s4);
 ```
->**输出结果为：“hello world”**
+>**输出结果为：“helloworld”**
 
-* **注意：System.out.println("test"+(s1 == s2))；输出结果为“false”说明字符内容相同但并不是同一地址，造成这一结果的原因是因为**
+* **注意：System.out.println("test"+(s3 == s4))；输出结果为“false”说明字符内容相同但并不是同一地址，造成这一结果的原因是因为(特别记住结果待更新)**
 
 ## intern拘留池
 >**public String intern()**
