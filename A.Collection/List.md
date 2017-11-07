@@ -18,7 +18,7 @@ https://baike.baidu.com/item/%E7%B1%BB%E9%9B%86/4887328?fr=aladdin
 
 一个集合代表了一组对象,这些对象我们称之为元素。某些集合允许重复的元素而其他是不可以的，有些是排序而有些不是。JDK不提供任何一个类直接去实现Collection接口，而是提供了更加具体的子接口Set和List接口继承Collection。这两个接口最主要用于传递集合以及操纵集合。
 
-**如何Collections接口中定义的方法：因为JDK不提供任何一个类直接去实现Collection接口而只有Set和List继承了Collection所以只能通过子接口去实现Collection的方法。**
+**因为JDK不提供任何一个类直接去实现Collection接口而只有Set和List继承了Collection所以只能通过子接口去实现Collection的方法。**
 
 Collections接口中定义的某些方法：
 add(E e)
@@ -331,6 +331,9 @@ public E remove(int index)
 **从ArrayList集合方法中可以发现，凡是除了访问特定元素的方法，调用方法的参数都应该是对象，那么8种原生数据都不是对象就不能调用这些方法了么?ArrayList集合中不允许有原生数据类型的元素了么?**
 
 #### 包装类（Wrapper Class）
+
+>详见：WrapperClass
+
 * 针对原生数据类型的包装，所有的包装类（8个）都位于java.lang包下，java中的8个包装类分别是：byte,short,Integer,long,float,double,character,boolean 他们的使用方式是一样的，可以实现原生数据类型与包装类型的双向转换（将原生数据类型变成对象）
 
 ```java
@@ -340,24 +343,23 @@ Integer in = (Integer)list.get(0);           //get（）方法
 所以若想使用原生数据类型调用ArrayList集合的方法可以使用包装类的方法将原生数据类型变成对象。
 
 ```java
-package p;
 import java.util.ArrayList;
-public Class ArrayListTest3
+
+public class ArrayListTest3
 {
-  public static void main(String[] args)
-  {
-    ArrayList arrayList = new ArrayList();
-    list.add(new Integer(3));                        //1、
-    list.add(new Integer(4));
-    list.add(new Integer(5));
-    list.add(new Integer(6));
-    int sum = 0;
-    for(int i = 0; i < list.size(); i++)
-    {
-      int value = ((Integer)list.get(i).intvalue);   //2、3、4、
+    public static void main(String[] args) {
+        ArrayList List = new ArrayList();
+        List.add(new Integer(3));                        //1、
+        List.add(new Integer(4));
+        List.add(new Integer(5));
+        List.add(new Integer(6));
+        int sum = 0;
+        for (int i = 0; i < List.size(); i++) {
+            int value = (((Integer) List.get(i)).intValue());  //2、3、4、
+            sum = sum + value;
+        }
+        System.out.println(sum);
     }
-    System.out.println(summ);
-  }
 }
 ```
 >输出结果：18
