@@ -11,7 +11,7 @@ Set和List一样，也继承于Collection,是集合的一种。和List不同的�
 
 >part of important implementing Class:Hashset;
 
-
+源码注释：
 A collection that contains no duplicate elements.More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and at most one null element.As implied by its name, this interface models the mathematical set abstraction.
 
 一个集合不能包含重复的元素。更确切地讲，set 不包含满足 e1.equals(e2) 的元素对 e1 和 e2，并且最多包含一个 null 元素。正如其名称所暗示的，此接口模仿了数学上的 set 抽象。在Java中使用Set,可以方便地将需要的类型以集合类型保存在一个变量中.主要应用在显示列表。
@@ -32,7 +32,7 @@ A collection that contains no duplicate elements.More formally, sets contain no 
 return map.put(e, PRESENT)==null;
 ```
 
-
+源码注释：
 Adds the specified element to this set if it is not already present.More formally, adds the specified element e to this set if this set contains no element e2 such that (e==null ? e2==null : e.equals(e2)).If this set already contains the element, the call leaves the set
 unchanged and returns false.
 
@@ -53,7 +53,7 @@ public boolean equals(Object obj) {
    }
    ```
 
-
+源码注释：
 public boolean equals(@Nullable Object obj) Inferred annotations available: @org.jetbrains.annotations.Nullable Indicates whether some other object is "equal to" this one.The equals method implements an equivalence relation on non-null object references:
 
 It is reflexive: for any non-null reference value x, x.equals(x) should return true.
@@ -95,7 +95,7 @@ object类的equals方法实现了最有可能的差别比较关系，就是说�
 ```java
 public native int hashCode();
 ```
-
+源码注释：
 Returns a hash code value for the object. This method is supported for the benefit of hash tables such as those provided by java.util.HashMap.The general contract of hashCode is:Whenever it is invoked on the same object more than once during an execution of a Java application, the hashCode method must consistently return the same integer, provided no  information used in equals comparisons on the object is modified. This integer need not remain consistent from one execution of an application to another execution of the same application.If two objects are equal according to the equals(Object) method,then calling the hashCode method on each of the two objects must produce the same integer result.It is not required that if two objects are unequal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce distinct integer results. However,the programmer should be aware that producing distinct integer results for unequal objects may improve the performance of hashtables.As much as is reasonably practical, the hashCode method defined by class Object does return distinct integers for distinct objects.(This is typically implemented by converting the internal address of the object into an integer, but this implementation technique is not required by the Java™ programming language.)
 
 Returns:
@@ -132,15 +132,14 @@ iterator用到了一种设计模式(第二种)，称为迭代模式。
 ```java
 return map.keySet().iterator();
 ```
-```
-Returns an iterator over the elements in this set. The elements are
-returned in no particular order.
-```
+源码注释：
+Returns an iterator over the elements in this set. The elements are returned in no particular order.
+
 返回一个针对集合的迭代器，这些元素的返回没有特殊顺序。
 * 既然返回值是一Inerator接口的实例，那就顺藤摸瓜找一下是如何实现的。
 
 ### public Interface interator<E>
-
+源码注释：
 An iterator over a collection. Iterator takes the place of Enumeration in the Java Collections Framework. Iterators differ from enumerations in two ways:Iterators allow the caller to remove elements from the underlying collection during the iteration with well-defined semantics.Method names have been improved.
 
 一个针对集合的迭代器。......
@@ -149,7 +148,7 @@ An iterator over a collection. Iterator takes the place of Enumeration in the Ja
 
 #### interator接口的方法
 ##### boolean hasNext();
-
+源码注释：
 Returns true if the iteration has more elements.
 (In other words, returns true if next would return an element rather than throwing an exception.)
 
@@ -212,7 +211,7 @@ public interface SortedSet<E>
 
 >See Also:Set, TreeSet, SortedMap, Collection, Comparable, Comparator, ClassCastException
 
-部分源码注释
+部分源码注释:
 
 A Set that further provides a total ordering on its elements.The elements are ordered using their natural ordering, or by a Comparator typically provided at sorted set creation time.
 
@@ -298,7 +297,7 @@ class Person
 
 >See Also:Comparator
 
-
+源码注释：
 This interface imposes a total ordering on the objects of each class that implements it.This ordering is referred to as the class's natural ordering,and the class's compareTo method is referred to as its natural comparison method.
 
 这是个会使每一个实现了这个接口的类的对象完全强迫性的遵循规律的接口。这个规律是以类的自然规则遵循的，并且类的compareTo方法也是根据其自然比较方法。
@@ -319,7 +318,7 @@ Compares this object with the specified object for order.
 
 >Overrides:add in class AbstractCollection
 
-
+源码注释：
 Adds the specified element to this set if it is not already present.More formally, adds the specified element e to this set if the set contains no element e2 such that (e==null ? e2==null : e.equals(e2)).If this set already contains the element, the call leaves the set unchanged and returns false.
 
 源码注释发现重写的add方法没什么不同。但从中发现了错误中出现的ClassCastException关键字。
@@ -339,7 +338,7 @@ public TreeSet(Comparator<? super E> comparator) {
         this(new TreeMap<>(comparator));
     }
 ```
-
+源码注释：
 Constructs a new, empty tree set, sorted according to the specified comparator.  All elements inserted into the set must be <i>mutually comparable</i> by the specified comparator: {@code comparator.compare(e1,e2)} must not throw a {@code ClassCastException} for any elements{@code e1} and {@code e2} in the set.  If the user attempts to add an element to the set that violates this constraint, the {@code add} call will throw a {@code ClassCastException}.@param comparator the comparator that will be used to order this set If {@code null}, the {@linkplain Comparable natural ordering} of the elements will be used.
 
 根据指定的comparator进行排序，构造一个新的空的tree set。所有输入集合的元素一定要通过指定的comparator进行互相排序，如此comparator.compare(e1,e2)将一定不会向集合中任何e1，e2元素抛掷类型转换异常错误。反而如果用户想要将违反这个约定的元素加入集合中，那么add方法将会抛掷类型转换异常错误抛掷类型转换异常错误。
@@ -349,7 +348,7 @@ Constructs a new, empty tree set, sorted according to the specified comparator. 
 * 注释中comparator.compare(e1,e2)调用了方法compare
 
 ### public interface Comparator<T>
-
+源码注释：
 A comparison function, which imposes a total ordering on some collection of objects.Comparators can be passed to a sort method (such as Collections.sort or Arrays.sort) to allow precise control over the sort order. Comparators can also be used to control the order of certain data structures (such as sorted sets or sorted maps), or to provide an ordering for collections of objects that don't have a natural ordering.
 
 一个给对对象集合强加总体排列顺序的比较功能。比较器可以传递给排序方法(比如说Collections.sort或者Arrays.sort)用来允许对顺序排列的精确控制。比较器也可以用来控制某些数据结构的排列顺序(比如说排列集合或者排列映射)，亦或者为没有自然排列规则的对象集合提供一个排列顺序。
@@ -359,7 +358,7 @@ A comparison function, which imposes a total ordering on some collection of obje
 
 >int compare(T o1,T o2)
 
-
+源码注释：
 Compares its two arguments for order. Returns a negative integer,zero, or a positive integer as the first argument is less than,equal to, or greater than the second.In the foregoing description, the notation sgn(expression)designates the mathematical signum function, which is defined to return one of -1, 0, or 1 according to whether the value of expression is negative, zero or positive.
 
 Parameters:
