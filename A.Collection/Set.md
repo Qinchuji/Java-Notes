@@ -282,13 +282,13 @@ class Person
   }
   public String toString()
   {
-    return String.valueof(this.score)
+    return String.valueOf(this.score)
   }
 }
 ```
 >输出结果：java.lang.ClassCastException:Person cannot be cast to java.lang.Comparable
 
-结果中显示set.add(p2);语句错误，类型转换异常，person不能被转换成java.lang.Comparable类型。
+结果中显示set.add(p2);语句错误，类型转换异常，person不能被转换成java.lang.Comparable类型。会不太理解的是为什么是从p2添加的时候开始有了错误提示而不是p1。
 
 * 其中提到了Comparable类，在文档中找到该类了解一下为什么会有异常。
 
@@ -328,7 +328,7 @@ ClassCastException - if the specified object cannot be compared with the element
 
 抛掷一个类型转换异常-如果指定的对象不能与集合中当前的元素进行比较。
 
-将这个类型转换异常与compareTo方法进行联系发现例子中出现的错误是因为TreeSet是带排序的，在p2放进去之前编译器需要得知按照什么方式进行排序，但由于是自己定义的Person类，所以不存在所谓的自然排序顺序，最终返回的是"抛掷一个类型转换异常-如果指定的对象不能与集合中当前的元素进行比较。"的异常。所以如果用户想使用TreeSet类并且往里面放置对象就只能自己明确的定义内部机制的排序方式，前提是放置的对象本身没有一个自然排序顺序，不然会引起混乱。
+将这个类型转换异常与compareTo方法进行联系发现例子中出现的错误是因为TreeSet是带排序的，在p2放进去之前编译器需要得知按照什么方式进行排序，但由于是自己定义的Person类，所以不存在所谓的自然排序顺序，最终返回的是"抛掷一个类型转换异常-如果指定的对象不能与集合中当前的元素进行比较。"的异常。而至于p1在添加的时候并没有报错是因为它是第一个所添加的元素并没有其它与之可比的。所以如果用户想使用TreeSet类并且往里面放置对象就只能自己明确的定义内部机制的排序方式，前提是放置的对象本身没有一个自然排序顺序，不然会引起混乱。
 
 * 那么如何定义用户类内部机制的排序方式？
 
@@ -366,8 +366,7 @@ o1 - the first object to be compared.
 o2 - the second object to be compared.
 
 Returns:
-a negative integer, zero, or a positive integer as the first argument
-is less than, equal to, or greater than the second.
+a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second.
 
 Throws:
 NullPointerException - if an argument is null and this comparator does
@@ -378,7 +377,7 @@ compared by this comparator.
 
 
 
-按顺序比较两个参数。当第一个参数小于，等于或大于第二个参数时分别返回负数，0或者正数。从前面的说明，符号表达指定了通过定义参数是否小于，等于或大于第二个参数时返回一个-1，0或者+1的数学正负号函数。
+按顺序比较两个参数。当第一个参数小于，等于或大于第二个参数时分别返回负数，0或者正数。从前面的说明，符号表达指定了通过定义参数是否小于，等于或大于第二个参数时返回一个-1，0或者+1的数学正负号函数。根据之前的描述，
 
 参数：o1-被比较的第一个值。o2-被比较的第二个值。
 
@@ -387,3 +386,205 @@ compared by this comparator.
 NullPointerException-参数为空，这个比较器并不许可空参数。
 
 ClassCastException-如果参数类型妨碍了它们被比较器比较。
+
+
+## 用户自定义排序方式以及常用的辅助方法
+
+### 1.实现将字符按降序进行排序
+
+```java
+import java.util.TreeSet;
+import java.util.Iterator;
+import java.util.Comparator;
+public class ComparatorTest1{
+  public void main(String[] args){
+    TreeSet set = new TreeSet();
+    set.add("A");
+    set.add("C");
+    set.add("D");
+    set.add("B");
+    set.add("F");
+    set.add("E");
+    for(Iterator i = set.iterator();i.hasNext();){
+      String value = (String)i.next();      //时刻记得集合中元素为Object类要进行强转使用字符串。
+      System.out.Println(value);
+    }
+  }
+}
+class MyComparator implements Comparator{
+  public int Compare(arg0, arg1){
+    String s1 = (String) arg0;
+    String s2 = (String) arg1;
+    return s2.CompareTo(s1);                  //CompareTo()
+  }
+}
+```
+>输出结果：
+
+```java
+F
+E
+D
+C
+B
+A
+```
+
+#### CompareTo(String anotherString)源代码
+
+>java.lang.String
+
+>public int compareTo(@NotNull String anotherString)
+
+Compares two strings lexicographically. The comparison is based on the Unicode value of each character in the strings. The character sequence represented by this String object is compared lexicographically to the character sequence represented by the argument string. The result is a negative integer if this String object lexicographically precedes the argument string. The result is a positive integer if this String object lexicographically follows the argument string. The result is zero if the strings are equal; compareTo returns 0 exactly when the equals(Object) method would return true.
+
+通过字母顺序比较两个字符串。改比较是以unicode值为基础比较字符串中的两个字符。两个相比较的字符将以字母顺序进行大小比较，若前者小于后者则返回负值，若前者等于后者则返回0，若前者大于后者则返回正值。
+
+题中规定了降序排列所以返回s2.CompareTo(s1)即可。
+
+### 2.按照学生对象的成绩进行排序(正解)
+```java
+import java.util.Comparator;
+import java.util.TreeSet;
+import java.util.Iterator;
+public class ComparatorTest2 {
+    public static void main(String[] args){
+        TreeSet set = new TreeSet(new PersonComparator());
+        Person p1 = new Person(10);
+        Person p2 = new Person(20);
+        Person p3 = new Person(30);
+        Person p4 = new Person(40);
+        set.add(p1);
+        set.add(p2);
+        set.add(p3);
+        set.add(p4);
+        for(Iterator i = set.iterator();i.hasNext();){
+            Person p = (Person)i.next();
+            System.out.println(p.score);
+        }
+    }
+}
+class Person{
+    int score;
+    public Person(int score){
+        this.score = score;
+    }
+    public String toString(){
+        return String.valueOf(this.score);
+    }
+}
+class PersonComparator implements Comparator {
+    @Override
+    public int compare(Object arg0, Object arg1) {
+        Person p1 = (Person) arg0;
+        Person p2 = (Person) arg1;
+        return p1.score - p2.score;
+    }
+}
+```
+>输出结果:
+
+```java
+10
+20
+30
+40
+```
+**说明：**
+
+当我们想要将一个集合进行有序排列的时候，有三点需要做。首先对于自己声明的类在int compare()方法中的传参一定要明确，形参要求为Object类，所以在重写此方法的时候一定要进行强转，才能使用类中的属性，而根据源码返回值要求为负值，0，正值，如果值为负则相当于p1在p2的前面则以从小到大排列反之...第二点，遍历集合需要使用迭代器的迭代函数、hasNext()方法、next()方法，需要访问对象的属性，一定要记得强转。第三点，new TreeSet对象的时候，对于所选择的构造函数，如果是希望使用自己构造好的排序规则那么一定要将其实现了comparator的类的对象作为构造方法的参数，这一步相当于确定了对集合进行特殊排序的排序规则。
+
+### 3.将链表中数字以从大到小的方式排序
+
+>接触两个方法
+
+#### public static <T> Comparator<T> reverseOrder()
+>java.util.Collections
+
+>public static <T> Comparator<T> reverseOrder()
+
+源码注释Returns a comparator that imposes the reverse of the natural ordering on a collection of objects that implement the Comparable interface. (The natural ordering is the ordering imposed by the objects' own compareTo method.) This enables a simple idiom for sorting (or maintaining) collections (or arrays) of objects that implement the Comparable interface in reverse-natural-order. For example, suppose a is an array of strings. Then:
+
+                Arrays.sort(a, Collections.reverseOrder());
+
+sorts the array in reverse-lexicographic (alphabetical) order.
+The returned comparator is serializable.
+
+Type parameters:
+<T> - the class of the objects compared by the comparator
+
+
+返回一个实现了强制性将集合中对象自然顺序颠倒的Comparable接口的比较器。（其自然顺序是指被对象自己强制的compareTo方法顺序)这个简单的指示语可以实现将集合中的对象自然顺序颠倒的Comparable接口进行排序.例如:将a看作是一个字符串数组,那么:Arrays.sort(a, Collections.reverseOrder());将数组以字母顺序排列,所返回的比较器是可序列化的.
+
+参数类型:通过比较器比较的类的对象.
+
+**对目标集合自然顺序的反序操作.**
+
+
+#### public static (T extends Comparable(? super T)) void sort(@NotNull List(T) list)
+
+>java.util.Collections
+
+```java
+public static <T> void sort(List<T> list, Comparator<? super T> c) {
+    list.sort(c);
+}
+```
+源码注释:Sorts the specified list into ascending order, according to the natural ordering of its elements. All elements in the list must implement the Comparable interface. Furthermore, all elements in the list must be mutually comparable (that is, e1.compareTo(e2) must not throw a ClassCastException for any elements e1 and e2 in the list).
+This sort is guaranteed to be stable: equal elements will not be reordered as a result of the sort.
+The specified list must be modifiable, but need not be resizable.
+Parameters:
+list - the list to be sorted.
+Type parameters:
+<T> - the class of the objects in the list
+
+大致意思是将指定的列表按照获得的方式排序.传递两个参数List和比较器,主要意思是将List以比较器的排列顺序进行排序.
+
+* 注意这是Collections中的方法,并不是Collection中的.
+
+```java
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class Little3 {
+    public static void main(String[] args){
+        LinkedList list = new LinkedList();
+        list.add(new Integer(-8));
+        list.add(new Integer(20));
+        list.add(new Integer(-20));
+        list.add(new Integer(8));
+        Comparator r = Collections.reverseOrder();
+        Collections.sort(list,r);
+        for(Iterator i = list.iterator();i.hasNext();){
+            System.out.println(i.next());
+        }
+    }
+}
+
+```
+>输出结果:
+
+```java
+20
+8
+-8
+-20
+```
+即自然顺序的反序.
+
+#### public static void shuffle(@NotNull List<?> list)
+
+>java.util.Collections
+
+
+Randomly permutes the specified list using a default source of randomness. All permutations occur with approximately equal likelihood.
+The hedge "approximately" is used in the foregoing description because default source of randomness is only approximately an unbiased source of independently chosen bits. If it were a perfect source of randomly chosen bits, then the algorithm would choose permutations with perfect uniformity.
+
+This implementation traverses the list backwards, from the last element up to the second, repeatedly swapping a randomly selected element into the "current position". Elements are randomly selected from the portion of the list that runs from the first element to the current position, inclusive.
+
+This method runs in linear time. If the specified list does not implement the RandomAccess interface and is large, this implementation dumps the specified list into an array before shuffling it, and dumps the shuffled array back into the list. This avoids the quadratic behavior that would result from shuffling a "sequential access" list in place.
+
+Parameters:
+list - the list to be shuffled.
