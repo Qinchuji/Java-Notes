@@ -518,7 +518,7 @@ Type parameters:
 
 参数类型:通过比较器比较的类的对象.
 
-**对目标集合自然顺序的反序操作.**
+**对目标列表自然顺序的反序操作.**
 
 
 #### public static (T extends Comparable(? super T)) void sort(@NotNull List(T) list)
@@ -573,7 +573,7 @@ public class Little3 {
 -20
 ```
 即自然顺序的反序.
-
+### 对列表元素进行随机排序
 #### public static void shuffle(@NotNull List<?> list)
 
 >java.util.Collections
@@ -588,3 +588,86 @@ This method runs in linear time. If the specified list does not implement the Ra
 
 Parameters:
 list - the list to be shuffled.
+
+简单来讲：将指定的列表用一种默认随机性源的排列方式排序(打乱原有顺序)。每一次调用这个方法则会随机排序一次，参数为待用列表。
+
+```java
+Collections.shuffle(list);
+for(Iterator i = list.iterator();i.hasNext();){
+    System.out.println(i.next());
+}
+```
+>输出结果：
+
+```java
+20
+-8
+-20
+8
+```
+
+再输出一次：
+
+>输出结果：
+
+```java
+8
+20
+-20
+-8
+```
+每一次输出都会进行重新排列。
+
+### 去列表元素中的最大值最小值
+
+#### public static (T extends Object & Comparable(? super T)) T min(@NotNull Collection(? extends T) coll)
+
+>java.util.Collections
+
+
+```java
+public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
+       Iterator<? extends T> i = coll.iterator();
+       T candidate = i.next();
+
+       while (i.hasNext()) {
+           T next = i.next();
+           if (next.compareTo(candidate) < 0)
+               candidate = next;
+       }
+       return candidate;
+   }
+```
+
+主要是将最小值返回。
+
+#### public static (T extends Object & Comparable(? super T)) T max(@NotNull Collection(? extends T) coll)
+
+>java.util.Collections
+
+```java
+public static <T extends Object & Comparable<? super T>> T max(Collection<? extends T> coll) {
+       Iterator<? extends T> i = coll.iterator();
+       T candidate = i.next();
+
+       while (i.hasNext()) {
+           T next = i.next();
+           if (next.compareTo(candidate) > 0)
+               candidate = next;
+       }
+       return candidate;
+   }
+```
+主要将最大值返回。
+
+在其后续加：
+```java
+System.out.println("minimum Value:" + Collections.min(list));
+System.out.println("maximum Value:" + Collections.max(list));
+```
+>输出结果：
+
+```java
+minimum Value:-20
+maximum Value:20
+```
