@@ -5,7 +5,7 @@ Set和List一样，也继承于Collection,是集合的一种。和List不同的�
 #### public Interface Set
 >java.util;
 
->public interface Set<E>;
+>public interface Set< E>;
 
 >extends Colllecton Iterable;
 
@@ -22,9 +22,9 @@ A collection that contains no duplicate elements.More formally, sets contain no 
 #### public class HashSet<E>;
 >java.util;
 
->extends AbstractSet<E>;
+>extends AbstractSet< E>;
 
->implements Set<E>, Cloneable, java.io.Serializable
+>implements Set< E>, Cloneable, java.io.Serializable
 
 
 ## public boolean add(E e)方法
@@ -498,7 +498,7 @@ class PersonComparator implements Comparator {
 
 >接触两个方法
 
-#### public static <T> Comparator<T> reverseOrder()
+#### public static < T> Comparator< T> reverseOrder()
 >java.util.Collections
 
 >public static <T> Comparator<T> reverseOrder()
@@ -521,7 +521,7 @@ Type parameters:
 **对目标列表自然顺序的反序操作.**
 
 
-#### public static (T extends Comparable(? super T)) void sort(@NotNull List(T) list)
+#### public static < T> void sort(@NotNull List< T> list,@Nullable Comparator< ? super T> c)
 
 >java.util.Collections
 
@@ -574,7 +574,7 @@ public class Little3 {
 ```
 即自然顺序的反序.
 ### 对列表元素进行随机排序
-#### public static void shuffle(@NotNull List<?> list)
+#### public static void shuffle(@NotNull List< ?> list)
 
 >java.util.Collections
 
@@ -620,7 +620,7 @@ for(Iterator i = list.iterator();i.hasNext();){
 
 ### 去列表元素中的最大值最小值
 
-#### public static (T extends Object & Comparable(? super T)) T min(@NotNull Collection(? extends T) coll)
+#### public static < T extends Object & Comparable< ? super T>> T min(@NotNull Collection< ? extends T> coll)
 
 >java.util.Collections
 
@@ -641,7 +641,7 @@ public static <T extends Object & Comparable<? super T>> T min(Collection<? exte
 
 主要是将最小值返回。
 
-#### public static (T extends Object & Comparable(? super T)) T max(@NotNull Collection(? extends T) coll)
+#### public static < T extends Object & Comparable< ? super T>> T max(@NotNull Collection< ? extends T> coll)
 
 >java.util.Collections
 
