@@ -107,7 +107,7 @@ public Class ArrayListTest1
     ArrayList arrayList = new ArrayList();
     arrayList.add("hello");
     arrayList.add("world");
-    //arrayList.add("world");                  是否允许重复元素  
+    //arrayList.add("world");                  允许重复元素  
     String s1 = （String）arrayList.get(0);      //1、
     String s2 = （String）arrayList.get(1);
     //String s3 = （String）arrayList.get(2);
@@ -137,6 +137,7 @@ world
 -------------
 hello
 world
+0
 true
 ```
 
@@ -211,6 +212,7 @@ for(int i = 0; i < in.length; i++)
 
 注意：因为已经将集合变成了数组，所以调用“长度”概念时就不再使用size()而使用的是length。
 
+因为1，2，3...均为常数，属于原生数据类型，而add()方法只允许对象为参数类型，这便是使用包装类型的原因。
 ### ArrayList相关方法的根源实现
 当我们使用数组的时侯，在创建数组前一定要规定好数组的大小，比如说定义了一个长度为20的数组，但是后来却发现数据是30个，那么没办法只能再重新创建一个新的长度为30的数组并将长度为20的数组的值拷贝进新创建的数组，再追加元素。但ArrayList很好用，不需要管里面是怎么装的，只需要add()就可以了，再使用get()取出就可以了。根据API提供的方法来看与数组很相似，数组可以通过索引来访问，而集合也可以通过相同的方式进行访问操作。那么ArrayList是如何实现的?
 
@@ -577,7 +579,7 @@ public boolean addAll(int index, Collection<? extends E> c) {    //4、
 5. 检查传入的索引值是否在合理范围之内。
 6. 将给定的Collection对象转换为Object数组。
 7. 数组长度为0返回false，表示数组为空，没有可插入元素。
-8. 定义了两个节点：pred,succ;pred(predecessor)：要添加位置的前节点。succ:要添加位置的后一节点。
+8. 定义了两个节点：pred,succ;pred(predecessor)：要添加位置的前节点。succ(Successor):要添加位置的后一节点。
 9. **构造方法(原链表为空)：因为3.所以执行这条语句，这是用来判断是否要添加到末尾的，添加位置的前一个元素则为last，后一个元素为空。但是原链表为空所以即使执行这条语句也不会有什么改变。**
 10. 表示插入链表对于原非空链表有特殊要求，即添加到指定位置，将index所对应的节点赋给下一个节点，并获取前一个节点。
 11. 这是一个for-each遍历，表示循环取出"a"Object类数组里的每一个值赋值给"o"每取一次推行一遍。
