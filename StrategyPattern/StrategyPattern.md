@@ -147,7 +147,7 @@ public class SubstractStrategy implements Strategy{
 ```
 3.在使用策略对象的类中保存一个对策略对象的引用。
 
-4.在使用策略对象的类中，实现对策略对象的set和get方法(注入)或者使用构造方法完成赋值。
+4.在使用策略对象的类中，实现对策略对象的set和get方法(注入)或者使用构造方法完成赋值运用这种做法可以方便的取不同的策略类，而不用重新new环境变量，甚至可以像如下获得更简便的操作。
 
 * 当有成员变量想要使用set和get方法的时候可以使用ALT + INS 键完成两个方法的定义.
 
@@ -158,9 +158,12 @@ package Test;
 
 public class Environment {
     private Strategy strategy;
-    public Environment(Strategy strategy){
-        this.strategy = strategy;
+    public Environment(strategy){
+      this.strategy = strategy;
     }
+    /*public Environment(){
+
+     */}
     public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
@@ -182,6 +185,8 @@ public class Client {
     public static void main(String[] args){
         AddStrategy addStrategy = new AddStrategy();
         Environment environment = new Environment(addStrategy);
+        //Environment environment = new Environment();
+        //environment.setStrategy(addStrategy);
         System.out.println(environment.Calculate(3,4));
         SubstractStrategy substractStrategy = new SubstractStrategy();
         environment.setStrategy(substractStrategy);
