@@ -65,3 +65,102 @@ private static final Object PRESENT = new Object();
 有了这一基本信息，观察HashSet的方法发现基本都是通过HashMap来进行的。
 
 # HashMap底层实现
+## HashMap类一些属性
+
+```java
+/**
+ * The load factor used when none specified in constructor.
+ */
+static final float DEFAULT_LOAD_FACTOR = 0.75f;
+```
+```java
+/**
+    * The default initial capacity - MUST be a power of two.
+    */
+   static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+```
+**默认初始化容量——一定要是2的幂。**
+
+注：<< 是位运算符，表示1的二进制往左移两位所得十进制为其结果。所以1 << 4即：16。
+
+## HashMap的构造方法
+HashMap拥有四个构造方法，实现的功能都是构造了一个带初始容量和负载因子的空HashMap。
+```
+public HashMap()
+public HashMap(int initialCapacity)
+public HashMap(int initialCapacity, float loadFactor)
+public HashMap(Map<? extends K, ? extends V> m)
+```
+其它构造方法最终调用的都是第三个构造方法源码。
+```java
+/**
+     * Constructs an empty <tt>HashMap</tt> with the specified initial
+     * capacity and load factor.
+     *
+     * @param  initialCapacity the initial capacity
+     * @param  loadFactor      the load factor
+     * @throws IllegalArgumentException if the initial capacity is negative
+     *         or the load factor is nonpositive
+     */
+    public HashMap(int initialCapacity, float loadFactor) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal initial capacity: " +
+                                               initialCapacity);
+        if (initialCapacity > MAXIMUM_CAPACITY)
+            initialCapacity = MAXIMUM_CAPACITY;
+        if (loadFactor <= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException("Illegal load factor: " +
+                                               loadFactor);
+        this.loadFactor = loadFactor;
+        this.threshold = tableSizeFor(initialCapacity);
+    }
+```
+
+
+
+static final int hash(Object key) {
+    int h;
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+
+
+
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    V value;
+    Node<K,V> next;
+
+    Node(int hash, K key, V value, Node<K,V> next) {
+        this.hash = hash;
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+
+    public final K getKey()        { return key; }
+    public final V getValue()      { return value; }
+    public final String toString() { return key + "=" + value; }
+
+    public final int hashCode() {
+        return Objects.hashCode(key) ^ Objects.hashCode(value);
+    }
+
+    public final V setValue(V newValue) {
+        V oldValue = value;
+        value = newValue;
+        return oldValue;
+    }
+
+    public final boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (o instanceof Map.Entry) {
+            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+            if (Objects.equals(key, e.getKey()) &&
+                Objects.equals(value, e.getValue()))
+                return true;
+        }
+        return false;
+    }
+}
