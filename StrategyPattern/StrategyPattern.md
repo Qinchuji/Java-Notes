@@ -162,15 +162,14 @@ public class Environment {
       this.strategy = strategy;
     }
     /*public Environment(){
-
-     */}
+    }*/
     public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
 
-    /*public Strategy getStrategy() {
+    public Strategy getStrategy() {
         return this.strategy;
-    }*/
+    }
     public int Calculate(int a, int b){
         return strategy.Calculate(a, b);
     }
