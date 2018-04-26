@@ -1,6 +1,6 @@
 # Map(映射)
 
-Map集合没有继承Collection接口,其提供的是key到value的映射,Map中不能包含相同的key值,每个key只能影射一个相同的value.key值还决定了存储对象在映射中的存储位置.但不是key对象本身决定的,而是通过散列技术进行处理,可产生一个散列码的整数值,散列码通常用作一个偏移量,该偏移量对应分配给映射的内存区域的起始位置,从而确定存储对象在映射中的存储位置.Map集合包括Map接口以及Map接口所实现的类. # Map(映射)
+Map集合没有继承Collection接口,其提供的是key到value的映射,Map中不能包含相同的key值,一个key只能影射一个value.key值还决定了存储对象在映射中的存储位置.但不是key对象本身决定的,而是通过散列技术进行处理,可产生一个散列码的整数值,散列码通常用作一个偏移量,该偏移量对应分配给映射的内存区域的起始位置,从而确定存储对象在映射中的存储位置.Map集合包括Map接口以及Map接口所实现的类.
 
 
 
@@ -106,13 +106,18 @@ System.out.println(value2);
 
 
 * 在不知道key的情况下，想要将Map中的value全部返回。
+## 遍历map的第一种方式
 
 ### public Set< K> keySet()
 >java.util.HashMap
 
 Returns a Set view of the keys contained in this map. The set is backed by the map, so changes to the map are reflected in the set, and vice-versa. If the map is modified while an iteration over the set is in progress (except through the iterator's own remove operation), the results of the iteration are undefined. The set supports element removal, which removes the corresponding mapping from the map, via the Iterator.remove, Set.remove, removeAll, retainAll, and clear operations. It does not support the add or addAll operations.
 
+Returns:a set view of the keys contained in this map.
+
 返回一个包含在map当中的Key的set视图，这个set是由map所维护的，因此对于这个map的改变将会反映到set上，反之亦然。
+
+返回值：map中包含的key的set视图。
 
 ### public Collection< V> values()
 >java.util.HashMap
@@ -122,7 +127,7 @@ Returns a Collection view of the values contained in this map. The collection is
 返回一个包含在map当中的values的collection视图，这个collection是由map所维护的，因此对于这个map的改变将会反映到collection上，反之亦然。
 
 
-**此处发现两个方法的返回类型是不一样的，其中keySet返回的是Set类型，而values返回的是Collection类型。这种现象出现的原因是set是不允许有重复元素的，而collection是允许有重复元素的，刚好对应于key和value，根据源码注解我们知道Map中key是只允许有一个不同于其他而单独存在的，所以是与Set规则相符的，而value值却没有限制，collection类可意容纳重复的元素。**
+**此处发现两个方法的返回类型是不一样的，其中keySet返回的是Set类型，而values返回的是Collection类型。这种现象出现的原因是set是不允许有重复元素的，而collection是允许有重复元素的，刚好对应于key和value，根据源码注解我们知道Map中key是只允许有一个且不同于其它而单独存在的，所以是与Set规则相符的，而value值却没有限制，collection类可意容纳重复的元素。**
 
 
 
@@ -152,6 +157,7 @@ public class Little5 {
     }
 }
 ```
+> 输出结果为：
 ```java
 a:aa
 b:bb
@@ -160,12 +166,64 @@ d:dd
 e:ee
 ```
 
+#### 使用Hashmap实现通过输入多个单词统计每个单词出现的次数
+
+```java
+import java.util.*;
+public class MapTest2 {
+    public static void main(String[] args) {
+        String str;
+        ArrayList arrayList = new ArrayList();
+        Scanner scanner = new Scanner(System.in);
+        HashMap map = new HashMap();
+        while (!(str = scanner.next()).equals("end")){
+            arrayList.add(str);
+        }
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (map.get(arrayList.get(i)) == null){
+                map.put(arrayList.get(i),new Integer(1));
+            }else {
+                //map.put(arrayList.get(i),((Integer)(map.get(arrayList.get(i)))).intValue() + 1);
+                Integer in = (Integer)map.get(arrayList.get(i));
+                in = new Integer(in.intValue() + 1);
+                map.put(arrayList.get(i),in);
+            }
+        }
+        Set set = map.keySet();
+        for (Iterator iterator = set.iterator();iterator.hasNext();){
+            String key = (String)iterator.next();
+            Integer value = (Integer)map.get(key);
+            System.out.println(key +":"+ value);
+        }
+    }
+}
+
+```
+> 输出结果为：
+```
+hello
+world
+hello
+welcome
+world
+welcome
+hello
+end
+world:2
+hello:3
+welcome:2
+```
+
+先调用keyset方法获取key的Set，接下来遍历Set,通过get方法获取每一个key的value,得到key和value的一对信息。
+
+## 遍历map的第二种方式
+
 ### interface Map.Entry< K, V>
 >java.util
 
 A map entry (key-value pair). The Map.entrySet method returns a collection-view of the map, whose elements are of this class. The only way to obtain a reference to a map entry is from the iterator of this collection-view. These Map.Entry objects are valid only for the duration of the iteration; more formally, the behavior of a map entry is undefined if the backing map has been modified after the entry was returned by the iterator, except through the setValue operation on the map entry.
 
-一个映射对key-value的entry。Map.entrySet方法返回一个元素是本类map的集合视图，唯一一个可以将一个引用包含进map entry的方式是通过这个集合视图的迭代器。...
+一个映射对key-value的entry。Map.entrySet方法返回一个元素是本类map的Collection视图，唯一一个可以将一个引用包含进map entry的方式是通过这个集合视图的迭代器。...
 
 >Entry指的是一个内部类，即表示为在一个类的内部又定义了一个类。
 
@@ -176,12 +234,14 @@ public class A{
 
     }
 }
+//实例化A
 A a = new A();
+//实例化B
 A.B b = new A.B();
 ```
 则将类B可以表示为public A.B
 
-* 详见Entry。
+* 详见Entry专栏
 
 #### K getKey()
 >java.util.Map.Entry
@@ -231,7 +291,7 @@ public class Little6 {
         map.put("e","ee");
         Set set = map.entrySet();
         for(Iterator iter = set.iterator();iter.hasNext();){
-  //此时返回的是一个包含着map的set而接下来要使用Map.Entry类中的方法，所以要向下类型中转换为Map、Entry类
+  //此时返回的是一个包含着map的set而接下来要使用Map.Entry类中的方法，所以要向下类型中转换为Map.Entry类
             Map.Entry entry = (Map.Entry)iter.next();  
             String key = (String)entry.getKey();
             String value = (String)entry.getValue();
@@ -251,4 +311,4 @@ d:dd
 e:ee
 ```
 ##### 总结：
-比较两种遍历方式：第一种方式是首先拿到一个key的集合，然后遍历这个key集合，将每个key所对应的value值调用。第二种是首先拿到一个map的集合，因为其本身就已经包含了key与value的映射关系，而它们是封装在Map.Entry类中的，通过调用Map.Entry中的方法即可分别调用key-value。其实本质上是一样的.
+比较两种遍历方式：第一种方式是首先拿到一个key的set(集合)，然后遍历这个key的set(集合)，分别得到key和value。第二种是首先拿到一个map的set(集合)遍历时通过得到Map.Entry对象，而其本身就已经包含了key与value的映射关系，并且是封装在Map.Entry类中的，所以再通过调用Map.Entry中的方法即可分别调用key-value。其实本质上是一样的.
