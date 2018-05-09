@@ -251,6 +251,10 @@ public class ArrayListTest2 {
 }
 
 ```
+>输出结果：
+```
+abcabc
+```
 
 #### 泛型存放自定义对象(HashSet)
 ```java
@@ -347,6 +351,17 @@ class People{
     }
 }
 ```
+
+>输出结果：
+```
+aa
+bb
+cc
+------------------
+Lisi 20 Shanghai
+Wangwu 30 Wuhan
+Zhangsan 20 Beijing
+```
 ### HashMap
 ```java
 import java.util.HashMap;
@@ -387,6 +402,16 @@ public class MapTest {
     }
 }
 
+```
+>输出结果：
+```
+a:aa
+b:bb
+c:cc
+----------------
+a:aa
+b:bb
+c:cc
 ```
 
 ## 泛型的优势
